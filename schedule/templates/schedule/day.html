@@ -1,0 +1,112 @@
+{% extends "schedule/layout.html" %}
+
+{% block body %}
+<h1 style="text-align: center; margin-bottom: 0px;">{{sch.day}}</h1>
+<a style="text-decoration: none; font-size: large;" href="{% url 'index' %}">Повернутись назад </a>
+<div style="display: flex; height: 100%;">
+    <div style="width: 70%;">
+        <h2>Розклад занять</h2>
+<table style="width: 100%; border-collapse: collapse;" border="1">
+    <th>Година</th>
+    <th>Дисципліна</th>
+    <th>Група</th>
+    <th>Викладач</th>
+    <th>Аудиторія</th>
+    <tr>
+        <td style="text-align: center;">
+            <ul style="list-style-type: none; text-decoration: underline; padding-left: 10px;">
+                {% for time in time %}
+                    <li>{{ time }}</li>
+                {% empty %}
+                    <li>Немає пар</li>
+                {% endfor %}
+            </ul>
+        </td>
+        <td style="text-align:center;">
+            <ul style="list-style-type: none; text-decoration: underline; padding-left: 10px;">
+                {% for discipline in disc %}
+                    <li>{{ discipline }} </li>
+                {% empty %}
+                    <li>Немає пар</li>
+                {% endfor %}
+            </ul>
+        </td>
+        <td style="text-align: center;">
+            <ul style="list-style-type: none; text-decoration: underline; padding-left: 10px;">
+                {% for group in group %}
+                    <li>{{ group }}</li>
+                {% empty %}
+                    <li>Немає пар</li>
+                {% endfor %}
+            </ul>
+        </td>
+        <td style="text-align: center;">
+            <ul style="list-style-type: none; text-decoration: underline; padding-left: 10px;">
+                {% for vykladach in vykladach %}
+                    <li>{{ vykladach }} </li>
+                {% empty %}
+                    <li>Немає пар</li>
+                {% endfor %}
+            </ul>
+        </td>
+        <td style="text-align: center;">
+            <ul style="list-style-type: none; text-decoration: underline; padding-left: 10px;">
+                {% for classroom in classroom %}
+                    <li>{{ classroom }} </li>
+                {% empty %}
+                    <li>Немає пар</li>
+                {% endfor %}
+            </ul>
+        </td>
+    </tr>
+</table>
+    </div>
+
+    <div style="margin-left: 20px;">
+        <h2>Додати пару</h2>
+<form action="{% url 'add' sch.id %}" method="post">
+    {% csrf_token %}
+    
+    <h4>Виберіть годину</h4>
+    <select name="time">
+        {% for time in non_time %}
+        <option value="{{ time.id }}">{{ time }} </option>
+        {% endfor %}
+    </select>
+
+    <h4>Виберіть дисципліну</h4>
+    <select name="disc">
+        {% for disc in non_disc %}
+        <option value="{{ disc.id }}">{{ disc }} </option>
+        {% endfor %}
+    </select>
+
+    <h4>Виберіть групу</h4>
+    <select name="group">
+        {% for group in non_group %}
+        <option value="{{ group.id }}">{{ group }} </option>
+        {% endfor %}
+    </select>
+
+    <h4>Виберіть викладача</h4>
+    <select name="vykladach">
+        {% for vykladach in non_vykladach %}
+        <option value="{{ vykladach.id }}">{{ vykladach }} </option>
+        {% endfor %}
+    </select>
+
+    <h4>Виберіть аудиторію</h4>
+    <select name="classroom">
+        {% for classroom in non_classroom %}
+        <option value="{{ classroom.id }}">{{ classroom }} </option>
+        {% endfor %}
+    </select>
+
+    <h4></h4>
+    <input type="submit" value="Додати до розкладу">
+</form>
+    </div>
+    
+
+</div>  
+{% endblock %}
